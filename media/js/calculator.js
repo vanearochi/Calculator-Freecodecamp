@@ -50,6 +50,7 @@ $(document).ready(function(){
 		}
 		arrBeforeProcessing=[];
 
+		
 		if(arrAfterProcessing.indexOf("*")===-1){
 			makingOperations(arrAfterProcessing)
 		}
@@ -155,6 +156,8 @@ $(document).ready(function(){
     	 }//end if in for in Making Op 
     	}//end in for in MakingOP
     	console.log(result)
+    	arrNum=[result]
+    	arrAfterProcessing=[]
 
     }//end in MakingOp
    // processingNum(arraySymbol)
@@ -264,7 +267,7 @@ $(document).ready(function(){
  $(".plus").on("click", function(){pushingValues("+")});
  $(".substraction").on("click", function(){pushingValues("-")});
  $(".division").on("click", function(){pushingValues("/")});
- $(".multiplication").on("click", function(){pushingValues("*")});
+ $(".dot").on("click", function(){pushingValues(".")});
  $(".ac").on("click", function(){resetEverythingToZero()});
  $(".ce").on("click", function(){poppingLastValue(arrBeforeProcessing)});
  $(".equal").on("click", function(){passingValuesToProcessing(arrBeforeProcessing)});
