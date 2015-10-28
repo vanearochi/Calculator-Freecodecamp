@@ -1,7 +1,7 @@
 
 $(document).ready(function(){
 	console.log("Welcome Calculator!")
-	var arrayNum =[];
+	var arrNum =[];
 	var arrAfterProcessing=[];
 	var arrBeforeProcessing=[];
 	var arrFinal=[];
@@ -9,33 +9,38 @@ $(document).ready(function(){
 	var reg2=/\*/
 	var finalNum1=0;
 
+	//Function push every clicked # or sign to an array
 	var pushingValues= function(val){
 		if(reg1.test(val)===true){
-			arrayNum.push(val)
-					//console.log(arrayNum)
+			arrNum.push(val)
+					console.log(arrBeforeProcessing)
 		}//end if in pushing values
+		
 		else{
-			if(arrayNum.length>0){
-				arrBeforeProcessing.push(arrayNum)
-				arrayNum=[]
-						//console.log(arrayNum.length)
+			if(arrNum.length>0){
+				arrBeforeProcessing.push(arrNum)
+				arrNum=[]
+						//console.log(arrNum.length)
 				arrBeforeProcessing.push([val])
-						//console.log(arrBeforeProcessing)
+						console.log(arrBeforeProcessing)
 			}
 			else{
 				arrBeforeProcessing.pop();
 				arrBeforeProcessing.push([val]);
-						//console.log(arrBeforeProcessing)
+						console.log(arrBeforeProcessing)
 			}
 		}
+
 			    //console.log(arrBeforeProcessing)
 				//console.log(arraySymbol)
 	};//end  pushingValues
 
+	//Function pass to different functions the arrays that need to be processed to give the result. 
+	//It interacts with 2 functions: makingop and multiplication op
 	var passingValuesToProcessing = function(arr){
-		if(arrayNum.length>0){
-			arrBeforeProcessing.push(arrayNum);
-			arrayNum=[];
+		if(arrNum.length>0){
+			arrBeforeProcessing.push(arrNum);
+			arrNum=[];
 					//console.log(arrBeforeProcessing)
 		}//end if 1 inside passingValues
 
@@ -56,8 +61,9 @@ $(document).ready(function(){
 		//arrBeforeProcessing.push
 	}
 
-	
 
+	//Function that join numbers without turning them in to a string interacting with function (addingZeros) that add zeros to each number depending
+	//on it's possition then add it to an array that will be processed into a result
     var processingNum = function(arr){
     	var arrIndex =arr.length-1;
     	var temporalNum=0;
@@ -80,7 +86,7 @@ $(document).ready(function(){
 			    }// endif in if in ProcessingNum		 
 	    	}// end if in processingNum
 	    	else{
-	    	    if(arrayNum.length>0){
+	    	    if(arrNum.length>0){
 		    		arrAfterProcessing.push(finalNum1);
 		    		finalNum1=0
 		    		arrAfterProcessing.push(arr[i])
@@ -94,6 +100,7 @@ $(document).ready(function(){
 	    }//end for  in processingNum
 	}//end processingNum
 
+	//Functions that add zeros to number
     var addingZeros = function(num){
     	var numFinal=1;
     	for(var j=0; j<num; j++ ){
@@ -104,6 +111,8 @@ $(document).ready(function(){
 
     }// end addingZeros
 
+    //this function process an array and makes the operations that are into it. It does +,-,/ . The multiplication it's made in other function
+    //since it has priority.
     var makingOperations = function(arr){
     	var result=0;
     	var temporal=0;
@@ -151,7 +160,7 @@ $(document).ready(function(){
    // processingNum(arraySymbol)
 
    
-    
+    //This function make the multiplications in the array and it calls the making operations function if there are more operation
    var multiplicationOperation=function(arr){
    	var temporal=0;
    	var reference=0;
@@ -213,7 +222,35 @@ $(document).ready(function(){
    	
 	}//end in multiplicationOperation
 
-	multiplicationOperation([2,"*",2])
+	//multiplicationOperation([2,"*",2])
+	//Function that reset all the values to zero when AC clicked
+	 var resetEverythingToZero = function(){
+	 	 arrNum =[];
+		 arrAfterProcessing=[];
+		 arrBeforeProcessing=[];
+		 arrFinal=[];
+	 }
+
+	 //Function that pop the last value entered and backwards 
+	 var poppingLastValue = function(arr){
+	 	if(arrNum.length===0 && arr.length>0){
+	 		arr.pop();
+	 		arrNum=arr[arr.length-1]
+	 		arr.pop();
+	 		console.log(arrNum)
+	 		console.log(arr)
+	 	}
+	 else{
+			console.log(arrNum)
+	 		arrNum.pop();
+	 	
+	 		
+	 	}
+	 	
+
+	 }
+
+	 
 
  $(".one").on("click", function(){pushingValues(1)});
  $(".two").on("click", function(){pushingValues(2)});
@@ -228,7 +265,8 @@ $(document).ready(function(){
  $(".substraction").on("click", function(){pushingValues("-")});
  $(".division").on("click", function(){pushingValues("/")});
  $(".multiplication").on("click", function(){pushingValues("*")});
-
+ $(".ac").on("click", function(){resetEverythingToZero()});
+ $(".ce").on("click", function(){poppingLastValue(arrBeforeProcessing)});
  $(".equal").on("click", function(){passingValuesToProcessing(arrBeforeProcessing)});
 
 });//end ready
